@@ -15,7 +15,7 @@ const Herosection = ({ inputVal, setInputVal, handleValue }: inputType) => {
           className="px-2 border rounded color-black py-2 mx-4"
           placeholder="enter the name"
         />
-        <button className="bg-black text-white px-2 py-2 rounded" type="submit">
+        <button className="bg-black text-white px-4 py-2 rounded" type="submit">
           Add
         </button>
       </form>
