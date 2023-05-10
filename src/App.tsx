@@ -76,8 +76,7 @@ const App: React.FC = () => {
           handleValue={handleValue}
         />
       </div>
-      <p className="text-3xl mt-2 mb-2 font-bold text-center underline">Data</p>
-      <div className="flex gap-y-4  flex-col  items-center">
+      <div className="flex gap-y-4  mt-8 flex-col  items-center">
         {todo.map((item) => {
           return (
             <div key={item.id} className="flex pb-2  px-4 	   w-96 gap-2 border">
