@@ -1,26 +1,105 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.css";
+import Herosection from "./component/Herosection";
+import { Todo } from "./component/mode";
+//string
+let name: string = "wahab";
+//number
+let age: number = 23;
+//boolean
+let student: Boolean;
+student = true;
+//array string
+let hobbies: string[] = ["cukur", "yamach"];
+//tuple is fixed amount of types and values at the define
+let role: [number, string];
+role = [2, "admin"];
+//object
+interface Person {
+  name: string;
+  age?: number;
 }
+
+let person: Person = {
+  name: "wahab",
+};
+//union type mean the there is the second type if the first is not then second is working
+
+// //extended interface
+// interface Person2 extends Person {
+//   hobbies: string[];
+// }
+console.log(name, age, student, hobbies, person, role, "type");
+
+const App: React.FC = () => {
+  const [inputVal, setInputVal] = useState<string | number>("");
+  const [todo, setTodo] = useState<Todo[]>([]);
+  const [editData, setEditData] = useState<number>(0);
+
+  const handleValue = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editData > 0) {
+      const newTodo = todo.map((item) => {
+        if (item.id === editData) {
+          return { ...item, todo: inputVal };
+        }
+        return item;
+      });
+      setTodo(newTodo);
+      setEditData(0);
+    } else if (inputVal) {
+      setTodo([...todo, { id: Date.now(), todo: inputVal, isDone: false }]);
+    }
+    setInputVal("");
+  };
+  const removeVal = (id: number) => {
+    const newTodo = todo.filter((item) => item.id !== id);
+    setTodo(newTodo);
+  };
+  const editVal = (id: number) => {
+    const editTodo = todo.find((item) => item.id === id);
+    if (editTodo) {
+      setEditData(editTodo.id);
+      setInputVal(editTodo.todo);
+    }
+  };
+  return (
+    <>
+      <h1 className="text-4xl font-bold text-center underline">Hello world!</h1>
+      <div className="mt-2">
+        {todo.map((item) => {
+          return (
+            <div
+              key={item.id}
+              className="flex justify-center alignItems-center  gap-2 "
+            >
+              <p className=" mt-2 px-2 py-2  border rounded">{item.todo}</p>
+              <button
+                onClick={() => removeVal(item.id)}
+                className="bg-black text-white px-2 mt-2 py-2 rounded"
+              >
+                delete
+              </button>
+              <button
+                onClick={() => editVal(item.id)}
+                className="bg-black text-white px-2 mt-2 py-2 rounded"
+              >
+                edit
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-2">
+        <Herosection
+          inputVal={inputVal}
+          setInputVal={setInputVal}
+          handleValue={handleValue}
+        />
+      </div>
+    </>
+  );
+};
 
 export default App;
